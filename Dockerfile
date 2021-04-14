@@ -5,6 +5,8 @@ WORKDIR /
 COPY . .
 
 RUN apt-get upgrade
+RUN python3
+RUN md5test()
 
 EXPOSE 5000
 
