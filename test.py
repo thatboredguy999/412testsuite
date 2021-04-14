@@ -3,10 +3,11 @@ import requests
 
 #md5test script
 def md5test():
-  url = ("localhost:5000/md5/test")
-  datatest = 0
+  url = ('http://localhost:5000/md5/test')
+  datatest = '{"input":"test","output":"098f6bcd4621d373cade4e832627b4f6"}'
   data = requests.get(url)
-  if data.text == datatest:
+  datat = data.text
+  if datatest in datat:
     print(True)
     return
   else:
@@ -16,10 +17,11 @@ def md5test():
 
 #is-prime test script
 def isprimetest():
-  url = ("localhost:5000/is-prime/test")
-  datatest = 0
+  url = ("http://localhost:5000/is-prime/5")
+  datatest = '{"intput":5,"output":true}'
   data = requests.get(url)
-  if data.text == datatest:
+  datat = data.text
+  if datatest in datat:
     print(True)
     return
   else:
@@ -29,10 +31,10 @@ def isprimetest():
 
 #factorial test script
 def factorialtest():
-  url = ("localhost:5000/factorial/5")
-  datatest = 0
+  url = ("http://localhost:5000/factorial/5")
+  datatest = '{"input":5,"output":120}'
   data = requests.get(url)
-  if data.text == datatest:
+  if datatest in data.text:
     print(True)
     return
   else:
@@ -43,10 +45,10 @@ def factorialtest():
 
 #fibonacci test script
 def fibonaccitest():
-  url = ("localhost:5000/fibonacci/5")
-  datatest = 0
+  url = ("http://localhost:5000/fibonacci/5")
+  datatest = '{"input":5,"output":[0,1,1,2,3,5]}'
   data = requests.get(url)
-  if data.text ==  datatest:
+  if datatest in data.text:
     print(True)
     return
   else:
@@ -57,10 +59,10 @@ def fibonaccitest():
 
 #slack test script
 def slacktest():
-  url = ("localhost:5000/slack-alert/test")
-  datatest = 0
+  url = ("http://localhost:5000/slack-alert/test")
+  datatest = '{"input":"test","output":true}'
   data = requests.get(url)
-  if data.text == datatest:
+  if datatest in data.text:
     print(True)
     return
   else:
@@ -72,9 +74,9 @@ def slacktest():
 #ORDER: POST, PUT, GET, REMOVE
 
 def keyvalpost():
-  url = ("localhost:5000/keyval")
-  payload = { "key": "new-key", "value": "new value" }
-  data =  requests.post(url, data =  payload)
+  url = ("http://localhost:5000/keyval")
+  payload = { 'key': 'new-key', 'value': 'new value' }
+  data =  requests.post(url, json = payload)
   if data.status_code == 200:
     print("Value posted")
     return
@@ -84,9 +86,9 @@ def keyvalpost():
   return
 
 def keyvalput():
-  url = ("localhost:5000/keyval")
+  url = ("http://localhost:5000/keyval")
   payload = { "key": "new-key", "value": "value2" }
-  data = requests.put(url,data = payload)
+  data = requests.put(url, json = payload)
   if data.status_code == 200:
     print("Value Changed")
     return
@@ -96,30 +98,40 @@ def keyvalput():
   return
 
 def keyvalget():
-  url = ("localhost:5000/keyval/new-key")
+  url = ("http://localhost:5000/keyval/new-key")
   data = requests.get(url)
   datatest = 0
   store =  data.json()
-  if store == datatest:
+  if datatest in store:
     print("Value retrieved:", store)
     return
   else:
-    print("ERROR: Code 200 expected")
+   # print("ERROR: Code 200 expected")
+    print(data.json())
     return
   return
 
-def keyvalget():
-  url = ("localhost:5000/keyval/new-key")
+def keyvaldelete():
+  url = ("http://localhost:5000/keyval/new-key")
   data = requests.delete(url)
   datatest = 0
   store = data.json()
-  if store == datatest:
+  if datatest in store:
     print("Key and Value deleted")
     return
   else:
-    Error('Code 200 expected')
+    print('Code 200 expected')
     return
   return
 
 
 
+md5test()
+isprimetest()
+factorialtest()
+fibonaccitest()
+slacktest()
+keyvalpost()
+keyvalput()
+keyvalget()
+keyvaldelete()
